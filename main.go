@@ -67,16 +67,19 @@ func getSection(russian, s string) string {
 				line = strings.Replace(line, "[[", "", -1)
 				line = strings.Replace(line, "]]", "", -1)
 				r := regexp.MustCompile(`\W*{{.*}}\W*`)
-				section += r.ReplaceAllString(line, "") + "\n"
+				section += strings.TrimSpace(r.ReplaceAllString(line, "")) + "\n"
 				continue
 			}
-			if strings.HasPrefix(line, "#: {{ux|ru|") {
-				line = line[11:]
-				line = strings.Replace(line, "'''", "", -1)
-				r := regexp.MustCompile(`([^\|]*)\|`)
-				section += "\tExample: " + r.FindStringSubmatch(line)[1]
-				r = regexp.MustCompile(`\|t=(.*)\|`)
-				section += " — " + r.FindStringSubmatch(line)[1] + "\n"
+			if strings.HasPrefix(line, "#:") || strings.HasPrefix(line, "#*") {
+//				line = line[11:]
+//				line = strings.Replace(line, "'''", "", -1)
+//				r := regexp.MustCompile(`([^\|]*)\|`)
+//				section += "\tExample: " + r.FindStringSubmatch(line)[1]
+//				r = regexp.MustCompile(`\|t=(.*)\|`)
+//				section += " — " + r.FindStringSubmatch(line)[1] + "\n"
+				continue
+			}
+			if strings.TrimSpace(line) == "" {
 				continue
 			}
 			section += line + "\n"
